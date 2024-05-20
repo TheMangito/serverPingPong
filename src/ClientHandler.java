@@ -19,6 +19,7 @@ public class ClientHandler extends Thread{
         return this.id;
     }
     public ClientHandler(Socket client, Server server, int id){
+
         this.clientSocket = client;
         this.server = server;
         this.id = 1;
@@ -32,36 +33,24 @@ public class ClientHandler extends Thread{
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-            Thread t1 = new Thread(() -> {
-                while (true) {
-                    synchronized (lock) {
-                        out.println("Enviando Paquete");
-                    }
-                    try {
-                        Thread.sleep(7);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-            t1.start();
-
             // Manejo de mensajes recibidos del cliente
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("RECEIVED FROM CLIENT: " + inputLine);
                 synchronized (lock) {
                     switch (inputLine) {
-                        case "W" -> out.println("Moviendo:Arriba");
-                        case "S" -> out.println("Moviendo:Abajo");
+                        case "W" -> server.moverJugador("W");
+                        case "S" -> server.moverJugador("S");
+                        case "UP" -> server.moverJugador("UP");
+                        case "DOWN" -> server.moverJugador("DOWN");
+                        case "A" -> {
+                            server.setMovimientoActivo(false);
+                            server.iniciarPelota();
+                        }
                         default -> {
                         }
                     }
                 }
-
-                // Broadcast a todos los clientes
-
 
                 if (".".equals(inputLine)) {
                     synchronized (lock) {
