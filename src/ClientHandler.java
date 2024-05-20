@@ -22,7 +22,8 @@ public class ClientHandler extends Thread{
 
         this.clientSocket = client;
         this.server = server;
-        this.id = 1;
+        this.id = id;
+        System.out.println(id);
     }
     public PrintWriter getOut(){
         return out;
@@ -39,10 +40,29 @@ public class ClientHandler extends Thread{
                 System.out.println("RECEIVED FROM CLIENT: " + inputLine);
                 synchronized (lock) {
                     switch (inputLine) {
-                        case "W" -> server.moverJugador("W");
-                        case "S" -> server.moverJugador("S");
-                        case "UP" -> server.moverJugador("UP");
-                        case "DOWN" -> server.moverJugador("DOWN");
+                        case "W" -> {
+                            if (id==1){
+                                server.moverJugador("W");
+                            }
+                        }
+                        case "S" -> {
+                            if (id==1){
+                                server.moverJugador("S");
+                            }
+
+                        }
+                        case "UP" -> {
+                            if (id==2){
+                                server.moverJugador("UP");
+                            }
+
+                        }
+                        case "DOWN" -> {
+                            if (id==2){
+                                server.moverJugador("DOWN");
+                            }
+
+                        }
                         case "A" -> {
                             server.setMovimientoActivo(false);
                             server.iniciarPelota();

@@ -112,9 +112,9 @@ public class Server {
                     scorePlayer2++;
                     broadcast("SCOP2", null);
                 }
-                if (scorePlayer1 == 5 || scorePlayer2 == 5){
+                if (scorePlayer1 == 3 || scorePlayer2 == 3){
                     totalStop = true;
-                    if (scorePlayer1 == 5){
+                    if (scorePlayer1 == 3){
                         broadcast("P1WIN", null);
                     }else{
                         broadcast("P2WIN", null);
